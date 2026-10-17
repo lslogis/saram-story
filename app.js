@@ -83,8 +83,8 @@ function discoveryCard(it,edDate){
     +'<div class="card-body">'
     +'<div class="meta"><span class="tag">'+esc(CATLBL[it.key]||it.cat)+'</span><time>'+esc(badgeDate(edDate))+'</time></div>'
     +'<h4>'+esc(it.title)+'</h4>'
-    +'<section class="part"><p>'+nl(it.q1||'')+'</p><p>'+nl(it.q2||'')+'</p><p>'+nl(it.q3||'')+'</p></section>'
-    +'<section class="part question"><h5>생각해볼 포인트</h5><p>'+nl(it.point||'')+'</p></section>'
+    +'<ul class="summary"><li>'+nl(it.q1||'')+'</li><li>'+nl(it.q2||'')+'</li><li>'+nl(it.q3||'')+'</li></ul>'
+    +'<p class="why"><strong>왜 중요한가?</strong>'+nl(it.point||'')+'</p>'
     +'<div class="source"><div class="card-actions">'
     +'<a class="card-action" href="'+esc(it.url||'')+'" target="_blank" rel="noopener noreferrer">원문 보기</a>'
     +'<button class="card-action copy-card" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="카드 복사">'+copyIcon+'복사</button>'
@@ -196,6 +196,10 @@ function cardData(article){
     title:article.querySelector('h4').textContent.trim(),
     meta:Array.from(article.querySelectorAll('.meta .tag,.meta time')).map(function(el){return el.textContent.trim()}).join(' · ')
   };
+  const sum=article.querySelector('.summary');
+  it.summary=sum?Array.from(sum.querySelectorAll('li')).map(function(li){return li.textContent.trim()}):[];
+  const why=article.querySelector('.why');
+  it.why=why?why.textContent.trim():'';
   it.parts=Array.from(article.querySelectorAll('.part')).map(function(p){
     const h=p.querySelector('h5');
     return {head:h?h.textContent.trim():'',
@@ -208,7 +212,10 @@ function cardData(article){
 function cardText(article){
   const d=cardData(article);
   const lines=[d.title,'['+d.meta+']',''];
+  d.summary.forEach(function(s){lines.push('· '+s)});
+  if(d.summary.length)lines.push('');
   d.parts.forEach(function(p){if(p.head)lines.push(p.head,'');lines.push(p.body,'')});
+  if(d.why)lines.push(d.why,'');
   if(d.flags)lines.push(d.flags,'');
   const src=article.dataset.url;
   if(src)lines.push('원문: '+src,'');
@@ -234,7 +241,7 @@ function renderCardPng(article){
     const bodyStyle=getComputedStyle(document.body);
     const ink=bodyStyle.color,bg=getComputedStyle(article).backgroundColor;
     const cat=getComputedStyle(article).borderTopColor;
-    const soft=getComputedStyle(article.querySelector('.part.question')).backgroundColor;
+    const soft=getComputedStyle(article.querySelector('.why')).backgroundColor;
     const muted=getComputedStyle(article.querySelector('.meta')).color;
     ctx.fillStyle=bg;ctx.fillRect(0,0,W,work.height);
     ctx.fillStyle=cat;ctx.fillRect(0,0,W,16);let y=16+68;
@@ -251,7 +258,25 @@ function renderCardPng(article){
     /* 제목 */
     ctx.fillStyle=ink;ctx.font='800 50px "Noto Sans KR", sans-serif';
     y=drawLines(ctx,canvasLines(ctx,d.title,max),side,y,70);y+=30;
-    /* 5칸 */
+    /* 세 줄 요약 */
+    d.summary.forEach(function(s){
+      ctx.font='400 31px "Gowun Dodum", "Noto Sans KR", sans-serif';ctx.fillStyle=ink;
+      ctx.fillStyle=cat;ctx.beginPath();ctx.arc(side+8,y-12,7,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=ink;
+      y=drawLines(ctx,canvasLines(ctx,s,max-40),side+34,y,47);y+=16;
+    });
+    y+=10;
+    /* 왜 중요한가 */
+    if(d.why){
+      ctx.fillStyle=soft;
+      const whyLines=canvasLines(ctx,d.why,max-60);
+      const whyH=whyLines.length*46+56;
+      const whyY=y;
+      ctx.fillRect(side,y-36,max,whyH);
+      y=drawLines(ctx,whyLines,side+30,y,46);
+      y=whyY+whyH+10;
+    }
+    /* 구 파트 (에세이용, 없을 수 있음) */
     d.parts.forEach(function(p){
       ctx.font='800 27px "Noto Sans KR", sans-serif';ctx.fillStyle=cat;
       const headLines=canvasLines(ctx,p.head,max);
