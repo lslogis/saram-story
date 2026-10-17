@@ -36,8 +36,8 @@ async function loadEditions(){
   if(!buf.byteLength) throw new Error('empty db');
   SQLDB=new SQL.Database(new Uint8Array(buf));
   return rows("SELECT id,kicker,date,label,small,window,cnt FROM editions ORDER BY date DESC, id DESC").map(function(e){
-    const items=rows("SELECT id,edition_id,cat,title,scene,stat,stat_src,stat_year,quote_orig,quote_trans,quote_src,quote_url,analogy,question,card,shorts,flags FROM items WHERE edition_id='"+e[0].replace(/'/g,"''")+"' ORDER BY id").map(function(r){
-      return {dbid:r[0],edition_id:r[1],cat:r[2],key:CATKEY[r[2]]||'work',title:r[3],scene:r[4],stat:r[5],stat_src:r[6],stat_year:r[7],quote_orig:r[8],quote_trans:r[9],quote_src:r[10],quote_url:r[11],analogy:r[12],question:r[13],card:r[14],shorts:r[15],flags:r[16]};
+    const items=rows("SELECT id,edition_id,cat,title,scene,stat,stat_src,stat_year,quote_orig,quote_trans,quote_src,quote_url,analogy,question,card,shorts,flags,kind,q1,q2,q3,point,url FROM items WHERE edition_id='"+e[0].replace(/'/g,"''")+"' ORDER BY id").map(function(r){
+      return {dbid:r[0],edition_id:r[1],cat:r[2],key:CATKEY[r[2]]||'work',title:r[3],scene:r[4],stat:r[5],stat_src:r[6],stat_year:r[7],quote_orig:r[8],quote_trans:r[9],quote_src:r[10],quote_url:r[11],analogy:r[12],question:r[13],card:r[14],shorts:r[15],flags:r[16],kind:r[17]||'essay',q1:r[18],q2:r[19],q3:r[20],point:r[21],url:r[22]};
     });
     return {id:e[0],kicker:e[1],date:e[2],label:e[3],small:e[4],window:e[5],cnt:e[6],items:items};
   });
@@ -73,7 +73,31 @@ function partHtml(num,label,inner){
   return '<section class="part"><h5>'+num+' '+label+'</h5>'+inner+'</section>';
 }
 
+function discoveryCard(it,edDate){
+  n++;
+  const uid=cardUid(it.title+'|'+it.edition_id);
+  const ulink=it.url?' · <a href="'+esc(it.url)+'" target="_blank" rel="noopener noreferrer">원문 확인</a>':'';
+  const copyIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
+  const shareIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="19" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8.3 10.9 7.4-4.5M8.3 13.1l7.4 4.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
+  const linkIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 10a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
+  const imgIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9" r="1.5" fill="currentColor"/><path d="m5 17 4.2-4.2 3.1 3.1 2.2-2.2L19 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  return '<article id="'+uid+'" class="card c-'+it.key+'" data-cat="'+it.key+'" data-edition="'+esc(it.edition_id)+'" data-url="'+esc(it.url||'')+'">'
+    +'<div class="card-body">'
+    +'<div class="meta"><span class="tag">'+esc(CATLBL[it.key]||it.cat)+'</span><time>'+esc(badgeDate(edDate))+'</time></div>'
+    +'<h4>'+esc(it.title)+'</h4>'
+    +'<section class="part"><p>'+nl(it.q1||'')+'</p><p>'+nl(it.q2||'')+'</p><p>'+nl(it.q3||'')+'</p><p class="src-line">출처'+ulink+'</p></section>'
+    +'<section class="part question"><h5>생각해볼 포인트</h5><p>'+nl(it.point||'')+'</p></section>'
+    +'<div class="source"><div class="card-actions">'
+    +'<button class="card-action copy-card" type="button" aria-label="카드 텍스트 복사">'+copyIcon+'복사</button>'
+    +'<button class="card-action share-card" type="button" aria-label="카드 공유">'+shareIcon+'공유</button>'
+    +'<button class="card-action link-card" type="button" aria-label="카드 링크 복사">'+linkIcon+'링크</button>'
+    +'<button class="card-action img-card" type="button" aria-label="카드 이미지 저장">'+imgIcon+'이미지</button>'
+    +'</div><span class="index">'+String(n).padStart(2,'0')+'</span></div>'
+    +'</div></article>';
+}
+
 function card(it,edDate){
+  if(it.kind==='discovery') return discoveryCard(it,edDate);
   n++;
   const uid=cardUid(it.title+'|'+it.edition_id);
   const statMeta=[it.stat_src,it.stat_year?('기준연도 '+it.stat_year):''].filter(Boolean).join(' · ');
