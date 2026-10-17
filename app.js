@@ -87,7 +87,7 @@ function discoveryCard(it,edDate){
     +'<section class="part question"><h5>생각해볼 포인트</h5><p>'+nl(it.point||'')+'</p></section>'
     +'<div class="source"><div class="card-actions">'
     +'<a class="card-action" href="'+esc(it.url||'')+'" target="_blank" rel="noopener noreferrer">원문 보기</a>'
-    +'<button class="card-action copy-card" type="button" aria-label="카드 텍스트 복사">'+copyIcon+'복사</button>'
+    +'<button class="card-action copy-card" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="카드 복사">'+copyIcon+'복사</button>'
     +'<button class="card-action share-card" type="button" aria-label="카드 공유">'+shareIcon+'공유</button>'
     +'<button class="card-action link-card" type="button" aria-label="카드 링크 복사">'+linkIcon+'링크</button>'
     +'</div><span class="index">'+String(n).padStart(2,'0')+'</span></div>'
@@ -116,7 +116,7 @@ function card(it,edDate){
     +'<section class="part question"><h5>⑤ 오늘의 질문</h5><p>'+nl(it.question)+'</p></section>'
     +flags
     +'<div class="source"><div class="card-actions">'
-    +'<button class="card-action copy-card" type="button" aria-label="카드 텍스트 복사">'+copyIcon+'복사</button>'
+    +'<button class="card-action copy-card" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="카드 복사">'+copyIcon+'복사</button>'
     +'<button class="card-action share-card" type="button" aria-label="카드 공유">'+shareIcon+'공유</button>'
     +'<button class="card-action link-card" type="button" aria-label="카드 링크 복사">'+linkIcon+'링크</button>'
     +'<button class="card-action img-card" type="button" aria-label="카드 이미지 저장">'+imgIcon+'이미지</button>'
@@ -177,8 +177,17 @@ document.getElementById('edition-select').addEventListener('change',function(e){
 
 /* ---------- copy / share / link / image ---------- */
 const toast=document.getElementById('toast');
+const copyMenu=document.getElementById('copy-menu');
+let activeCopyButton=null,activeCopyCard=null;
 let toastTimer;
 function showToast(m){toast.textContent=m;toast.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(function(){toast.classList.remove('show')},2200)}
+function closeCopyMenu(restore){if(!copyMenu||copyMenu.hidden)return;copyMenu.hidden=true;if(activeCopyButton)activeCopyButton.setAttribute('aria-expanded','false');if(restore&&activeCopyButton)activeCopyButton.focus();activeCopyButton=null;activeCopyCard=null}
+function openCopyMenu(button){
+  if(activeCopyButton===button&&!copyMenu.hidden){closeCopyMenu(false);return}
+  closeCopyMenu(false);activeCopyButton=button;activeCopyCard=button.closest('.card');button.setAttribute('aria-expanded','true');copyMenu.hidden=false;
+  if(!matchMedia('(max-width: 800px)').matches){const r=button.getBoundingClientRect(),w=244;copyMenu.style.left=Math.max(10,Math.min(innerWidth-w-10,r.right-w))+'px';copyMenu.style.top=Math.min(innerHeight-copyMenu.offsetHeight-10,r.bottom+8)+'px'}
+  requestAnimationFrame(function(){const first=copyMenu.querySelector('.copy-choice');if(first)first.focus()});
+}
 function fallbackCopy(text){const area=document.createElement('textarea');area.value=text;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';document.body.appendChild(area);area.select();const ok=document.execCommand('copy');area.remove();return ok}
 function copyText(text){if(navigator.clipboard&&navigator.clipboard.writeText){return navigator.clipboard.writeText(text).catch(function(){if(!fallbackCopy(text))throw new Error('copy failed')})}return Promise.resolve(fallbackCopy(text)).then(function(ok){if(!ok)throw new Error('copy failed')})}
 
@@ -297,7 +306,7 @@ document.addEventListener('click',function(event){
   const article=button.closest('.card');if(!article)return;
   const title=article.querySelector('h4').textContent.trim();
   if(button.classList.contains('copy-card')){
-    copyText(cardText(article)).then(function(){showToast('카드 텍스트를 복사했어요.')}).catch(function(){showToast('복사하지 못했어요. 다시 시도해 주세요.')});
+    openCopyMenu(button);
     return;
   }
   if(button.classList.contains('link-card')){
@@ -317,6 +326,14 @@ document.addEventListener('click',function(event){
     copyCardImage(article).then(function(r){showToast(r==='copied'?'카드 이미지를 복사했어요.':'이미지 복사를 지원하지 않아 PNG로 저장했어요.')}).catch(function(){showToast('이미지를 만들지 못했어요. 다시 시도해 주세요.')});
   }
 });
+
+copyMenu.addEventListener('click',function(event){
+  const choice=event.target.closest('.copy-choice');if(!choice||!activeCopyCard)return;const card=activeCopyCard;
+  if(choice.dataset.copyMode==='text'){copyText(cardText(card)).then(function(){showToast('카드 텍스트를 복사했어요.')}).catch(function(){showToast('복사하지 못했어요. 다시 시도해 주세요.')});closeCopyMenu(false);return}
+  showToast('카드 이미지를 만들고 있어요…');closeCopyMenu(false);
+  copyCardImage(card).then(function(r){showToast(r==='copied'?'카드 이미지를 복사했어요.':'이미지 복사를 지원하지 않아 PNG로 저장했어요.')}).catch(function(){showToast('이미지를 만들지 못했어요. 다시 시도해 주세요.')});
+});
+document.addEventListener('keydown',function(event){if(event.key==='Escape'&&copyMenu&&!copyMenu.hidden)closeCopyMenu(true)});
 
 /* ---------- search / filter ---------- */
 const searchInput=document.getElementById('story-search');
