@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ko" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link rel="icon" href="data:,">
+  <title>사람 사는 이야기</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap');
+    :root{
+      color-scheme:light;
+      --paper:#f3f1ed;--ink:#171713;--muted:#625f58;--surface:#fff;--line:#d9d5cd;--shadow:0 16px 46px rgba(24,22,18,.08);
+      --focus:#1769aa;--on-accent:#fff;
+    }
+    :root[data-theme="dark"]{
+      color-scheme:dark;
+      --paper:#11120f;--ink:#f3f0e8;--muted:#b6b2a8;--surface:#1b1c18;--line:#373832;--shadow:0 18px 48px rgba(0,0,0,.3);
+      --focus:#8ec5ef;
+    }
+    @media(prefers-color-scheme:dark){
+      :root:not([data-theme="light"]){
+        color-scheme:dark;
+        --paper:#11120f;--ink:#f3f0e8;--muted:#b6b2a8;--surface:#1b1c18;--line:#373832;--shadow:0 18px 48px rgba(0,0,0,.3);
+        --focus:#8ec5ef;
+      }
+    }
+    .c-work{--cat:#2f6599;--soft:#e5eff7}
+    .c-rel{--cat:#b7352d;--soft:#f7e8e5}
+    .c-alone{--cat:#7551a3;--soft:#eee8f5}
+    .c-aging{--cat:#9a650d;--soft:#f7edda}
+    .c-money{--cat:#26745b;--soft:#e3f0ea}
+    .c-mind{--cat:#a34d7a;--soft:#f7e6ee}
+    .c-family{--cat:#3f7d8c;--soft:#e2eff2}
+    :root[data-theme="dark"] .c-work,.c-work{--cat-d:#82b6e4}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-work{--cat:#82b6e4;--soft:#1d2d3b}}
+    :root[data-theme="dark"] .c-work{--cat:#82b6e4;--soft:#1d2d3b}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-rel{--cat:#f07369;--soft:#382321}}
+    :root[data-theme="dark"] .c-rel{--cat:#f07369;--soft:#382321}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-alone{--cat:#b99bdf;--soft:#30283b}}
+    :root[data-theme="dark"] .c-alone{--cat:#b99bdf;--soft:#30283b}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-aging{--cat:#e4b65e;--soft:#382e1c}}
+    :root[data-theme="dark"] .c-aging{--cat:#e4b65e;--soft:#382e1c}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-money{--cat:#72bda2;--soft:#1c3029}}
+    :root[data-theme="dark"] .c-money{--cat:#72bda2;--soft:#1c3029}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-mind{--cat:#e08bb0;--soft:#3a2430}}
+    :root[data-theme="dark"] .c-mind{--cat:#e08bb0;--soft:#3a2430}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-family{--cat:#8fc3d1;--soft:#20333a}}
+    :root[data-theme="dark"] .c-family{--cat:#8fc3d1;--soft:#20333a}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",sans-serif;line-height:1.65;overflow-x:hidden}a{color:inherit}.wrap{width:min(1180px,calc(100% - 40px));margin-inline:auto}
+    .mast{padding:78px 0 38px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}.mast:before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,#2f6599 0 30%,#7551a3 30% 55%,#26745b 55% 80%,#9a650d 80%)}
+    .mast-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:72px;align-items:center}.issue{display:inline-flex;align-items:center;gap:9px;font-size:.82rem;font-weight:800;color:var(--muted);margin:0 0 18px}.issue:before{content:"";width:11px;height:11px;background:#2f6599;transform:rotate(12deg)}.mast h1{font-family:"Noto Sans KR",sans-serif;font-size:clamp(2.6rem,10.5vw,6.5rem);font-weight:800;line-height:1.04;letter-spacing:-.075em;margin:0;max-width:900px;white-space:nowrap}.mast h1 .report-word{display:inline-block;padding:.02em .18em .1em .1em;background:var(--ink);color:var(--paper);letter-spacing:-.065em;transform:rotate(-1deg);transform-origin:left center}.dek{font-family:"Gowun Dodum",sans-serif;font-size:clamp(1.05rem,2vw,1.32rem);line-height:1.65;margin:32px 0 0;max-width:710px;color:var(--muted)}.snapshot{border-top:5px solid var(--ink);padding-top:17px}.snapshot b{font-size:3.1rem;line-height:1;display:block;letter-spacing:-.06em}.snapshot span{font-size:.84rem;color:var(--muted)}
+    .theme-toggle{position:absolute;top:16px;right:18px;display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;overflow:hidden;z-index:6}
+    .theme-toggle button{appearance:none;border:0;background:transparent;color:var(--muted);font:700 .76rem "Noto Sans KR",sans-serif;padding:8px 13px;cursor:pointer}
+    .theme-toggle button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+    .theme-toggle button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+    .search-panel{padding-top:24px}.search-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:18px}.search-field{min-height:54px;display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-bottom:3px solid var(--ink);padding:0 15px;box-shadow:0 8px 28px rgba(24,22,18,.05)}.search-field:focus-within{border-color:var(--focus);box-shadow:0 0 0 3px rgba(23,105,170,.22)}.search-field svg{width:21px;height:21px;flex:0 0 auto;color:var(--muted)}.search-field input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:600 1rem "Noto Sans KR"}.search-field input::placeholder{color:var(--muted);font-weight:500}.search-field input::-webkit-search-cancel-button{display:none}.search-clear{appearance:none;border:0;background:transparent;color:var(--muted);font:700 .8rem "Noto Sans KR";cursor:pointer;padding:8px}.search-clear:hover{color:var(--ink)}.search-clear:focus-visible{outline:3px solid var(--focus);outline-offset:2px}.search-clear[hidden]{display:none}.edition-pick{display:flex;align-items:center;gap:8px;font:700 .82rem "Noto Sans KR";color:var(--muted);white-space:nowrap}.edition-pick select{font:600 .85rem "Noto Sans KR";color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:9px 10px;max-width:200px}.search-status{margin:0;color:var(--muted);font-size:.82rem;font-weight:600;white-space:nowrap}.sr-only{position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important}
+    .legend{display:flex;gap:8px;flex-wrap:wrap;padding:18px 0 22px}.legend button{appearance:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 13px;font:600 .8rem "Noto Sans KR";cursor:pointer;transition:.2s}.legend button:hover,.legend button[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 3px 0 var(--ink);transform:translateY(-2px)}.legend button:focus-visible,a:focus-visible{outline:3px solid var(--focus);outline-offset:3px}.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:7px;background:currentColor}
+    main{padding:38px 0 76px}.edition-block+.edition-block{border-top:1px solid var(--line);padding-top:64px;margin-top:12px}.edition-head{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center;margin-bottom:42px}.edition-head h2{font-size:clamp(1.85rem,4vw,3.35rem);line-height:1.12;letter-spacing:-.045em;margin:0}.edition-head .edition-title{display:grid;grid-template-columns:max-content minmax(0,1fr);align-items:center;width:min(100%,690px);gap:20px;padding:18px 24px;background:var(--surface);border-top:5px solid var(--ink);border-bottom:1px solid var(--line);box-shadow:0 10px 26px rgba(24,22,18,.06);letter-spacing:0}.edition-title .edition-date{display:grid;place-items:center;min-width:146px;min-height:88px;padding:12px 15px;background:#2f6599;color:#fff;font:800 clamp(1.03rem,1.55vw,1.24rem)/1.25 "Noto Sans KR",sans-serif;letter-spacing:-.035em;text-align:center}.edition-title .edition-label{min-width:0;font-family:"Noto Sans KR",sans-serif;font-size:clamp(2rem,4vw,3rem);font-weight:800;line-height:1.05;letter-spacing:-.06em}.edition-title .edition-label small{display:block;font-size:.4em;font-weight:700;letter-spacing:-.02em;color:var(--muted);margin-top:.45em;line-height:1.2}.edition-head p{margin:0;color:var(--muted);font-size:.88rem;text-align:right}.edition-head .window{display:inline-block;margin-top:7px;color:var(--ink);font-weight:700}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+    .card{--cat:var(--ink);--soft:var(--surface);background:var(--surface);border:1px solid var(--line);border-top:5px solid var(--cat);box-shadow:var(--shadow);display:flex;flex-direction:column;min-width:0;scroll-margin-top:20px}
+    .card-body{padding:28px 29px 26px;display:flex;flex-direction:column;height:100%}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.72rem;color:var(--muted);font-weight:600}.tag{color:var(--cat);background:var(--soft);padding:4px 8px;border-radius:4px}
+    .card h4{font-size:1.35rem;line-height:1.4;letter-spacing:-.025em;margin:16px 0 6px}
+    .part{margin:20px 0 0}.part h5{margin:0 0 8px;font:800 .82rem "Noto Sans KR";color:var(--cat);letter-spacing:.05em}
+    .part p{margin:0 0 8px;font-size:.98rem;line-height:1.7}.part p:last-child{margin-bottom:0}
+    .quote-orig{font-family:"Gowun Batang",serif;font-size:1.12rem;line-height:1.95}
+    .quote-trans{font-family:"Gowun Dodum",sans-serif}
+    .src-line{font-size:.8rem;color:var(--muted)}.src-line a{color:var(--cat);font-weight:700}
+    .part.question{background:var(--soft);border-radius:6px;padding:16px 18px}
+    .flags{margin:20px 0 0;padding:12px 14px;border:1px dashed var(--cat);font-size:.82rem;color:var(--muted);line-height:1.6}.flags strong{color:var(--cat)}
+    .source{margin-top:auto;padding-top:20px;display:flex;justify-content:space-between;gap:18px;align-items:center}.card-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+    .card-action{appearance:none;border:1px solid var(--line);background:transparent;border-radius:5px;padding:7px 9px;font:700 .8rem "Noto Sans KR";color:var(--cat);min-height:36px;display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-family:"Noto Sans KR",sans-serif}
+    .card-action:hover{border-color:var(--cat);background:var(--soft)}.card-action:focus-visible{outline:3px solid var(--focus);outline-offset:2px}.card-action svg{width:15px;height:15px}
+    .share-card{display:none}.share-card.available{display:inline-flex}
+    .index{font:700 .72rem Georgia,serif;color:var(--muted)}
+    .card.flash{outline:3px solid var(--focus);outline-offset:5px}
+    .toast{position:fixed;z-index:40;left:50%;bottom:max(24px,calc(env(safe-area-inset-bottom) + 16px));transform:translate(-50%,18px);max-width:min(92vw,420px);padding:11px 16px;background:var(--ink);color:var(--paper);font-size:.82rem;font-weight:700;box-shadow:var(--shadow);opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease}.toast.show{opacity:1;transform:translate(-50%,0)}
+    footer{border-top:1px solid var(--line);padding:30px 0 48px;color:var(--muted);font-size:.75rem;line-height:1.75}.footer-grid{display:grid;grid-template-columns:1fr 2fr;gap:30px}.footer-grid strong{color:var(--ink);font-size:.86rem}
+    .empty{display:none;text-align:center;padding:60px 20px;color:var(--muted);font-family:"Gowun Dodum",sans-serif;font-size:1.05rem;line-height:1.9}.empty.show{display:block}
+    .card.search-hidden,.edition-block.search-hidden{display:none}
+    @media(max-width:800px){.wrap{width:min(100% - 28px,680px)}.mast{padding-top:58px}.mast-grid{grid-template-columns:1fr;gap:38px}.mast h1{font-size:clamp(2.2rem,10.5vw,5.3rem)}.snapshot{max-width:240px}.search-row{grid-template-columns:1fr;gap:8px}.search-status{white-space:normal}.edition-head{grid-template-columns:1fr}.edition-head p{text-align:left}.grid{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr}.legend{gap:7px}.legend button{padding:8px 11px}.card-body{padding:23px 21px}.card h4{font-size:1.2rem}.source{align-items:flex-end}.card-actions{gap:6px}.card-action{min-height:40px;padding:8px 10px}.theme-toggle{top:12px;right:12px}}
+    @media(max-width:460px){.mast h1{font-size:clamp(2rem,10.5vw,3.15rem);line-height:1.02}.mast{padding-bottom:30px}.edition-head .edition-title{grid-template-columns:minmax(112px,max-content) minmax(0,1fr);gap:10px;padding:12px}.edition-title .edition-date{min-width:112px;min-height:76px;padding:9px 10px;font-size:.88rem}.edition-title .edition-label{font-size:clamp(1.6rem,8.5vw,2.2rem)}.card{scroll-margin-top:12px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.legend button,.toast{transition:none}}
+  </style>
+</head>
+<body>
+  <header class="mast">
+    <div class="theme-toggle" role="group" aria-label="테마 선택">
+      <button type="button" data-theme-val="auto" aria-pressed="true">자동</button>
+      <button type="button" data-theme-val="light" aria-pressed="false">라이트</button>
+      <button type="button" data-theme-val="dark" aria-pressed="false">다크</button>
+    </div>
+    <div class="wrap mast-grid">
+      <div>
+        <p class="issue" id="issue-line">사람 사는 이야기 · 인문 에세이</p>
+        <h1>사람 사는 <span class="report-word">이야기</span></h1>
+        <p class="dek">사람 사는 이야기로 시작해서 인문학으로 한 발짝 들어가는 곳. 가볍게 들어와 생각 하나를 들고 나가세요.</p>
+      </div>
+      <aside class="snapshot"><b id="snap-count">…</b><span id="snap-label">모은 이야기</span></aside>
+    </div>
+  </header>
+  <section class="wrap search-panel" aria-label="이야기 검색">
+    <div class="search-row">
+      <div class="search-field">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16.2 16.2 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <label class="sr-only" for="story-search">이야기 검색</label>
+        <input id="story-search" type="search" placeholder="제목, 장면, 숫자, 구절, 비유, 질문에서 검색" autocomplete="off">
+        <button class="search-clear" id="search-clear" type="button" hidden>지우기</button>
+      </div>
+      <p class="search-status" id="search-status" aria-live="polite">…</p>
+      <label class="edition-pick"><span class="edition-pick-label">날짜</span><select id="edition-select" aria-label="날짜 선택"></select></label>
+    </div>
+  </section>
+  <nav class="wrap legend" aria-label="카테고리 필터">
+    <button type="button" data-filter="all" aria-pressed="true">전체</button>
+    <button type="button" data-filter="work">일</button>
+    <button type="button" data-filter="rel">관계</button>
+    <button type="button" data-filter="alone">혼자</button>
+    <button type="button" data-filter="aging">나이 듦</button>
+    <button type="button" data-filter="money">돈</button>
+    <button type="button" data-filter="mind">마음</button>
+    <button type="button" data-filter="family">가족</button>
+  </nav>
+  <main class="wrap">
+    <div id="editions"></div>
+    <p class="empty" id="empty">아직 글이 없습니다.<br>첫 이야기가 곧 올라옵니다.</p>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <footer><div class="wrap footer-grid"><strong>사람 사는 이야기<br>매일 한 편씩 찾아옵니다</strong><span id="foot-note">사람 사는 이야기로 시작해서 인문학으로 한 발짝 들어가는 곳.</span></div></footer>
+<script src="sql-wasm.js"></script>
+<script src="app.js?v=20261017"></script>
+</body>
+</html>
