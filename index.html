@@ -30,6 +30,8 @@
     .c-aging{--cat:#9a650d;--soft:#f7edda}
     .c-money{--cat:#26745b;--soft:#e3f0ea}
     .c-mind{--cat:#a34d7a;--soft:#f7e6ee}
+    .c-body{--cat:#26745b;--soft:#e3f0ea}
+    .c-kid{--cat:#3f7d8c;--soft:#e2eff2}
     .c-family{--cat:#3f7d8c;--soft:#e2eff2}
     :root[data-theme="dark"] .c-work,.c-work{--cat-d:#82b6e4}
     @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-work{--cat:#82b6e4;--soft:#1d2d3b}}
@@ -43,11 +45,15 @@
     @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-money{--cat:#72bda2;--soft:#1c3029}}
     :root[data-theme="dark"] .c-money{--cat:#72bda2;--soft:#1c3029}
     @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-mind{--cat:#e08bb0;--soft:#3a2430}}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-body{--cat:#72bda2;--soft:#1c3029}}
+    @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-kid{--cat:#8fc3d1;--soft:#20333a}}
     :root[data-theme="dark"] .c-mind{--cat:#e08bb0;--soft:#3a2430}
+    :root[data-theme="dark"] .c-body{--cat:#72bda2;--soft:#1c3029}
+    :root[data-theme="dark"] .c-kid{--cat:#8fc3d1;--soft:#20333a}
     @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .c-family{--cat:#8fc3d1;--soft:#20333a}}
     :root[data-theme="dark"] .c-family{--cat:#8fc3d1;--soft:#20333a}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Noto Sans KR",sans-serif;line-height:1.65;overflow-x:hidden}a{color:inherit}.wrap{width:min(1180px,calc(100% - 40px));margin-inline:auto}
-    .mast{padding:78px 0 38px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}.mast:before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,#2f6599 0 30%,#7551a3 30% 55%,#26745b 55% 80%,#9a650d 80%)}
+    .mast{padding:78px 0 38px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}.mast:before{content:"";position:absolute;inset:0 0 auto;height:7px;background:linear-gradient(90deg,#a34d7a 0 20%,#26745b 20% 40%,#b7352d 40% 60%,#3f7d8c 60% 80%,#9a650d 80%)}
     .mast-grid{display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:72px;align-items:center}.issue{display:inline-flex;align-items:center;gap:9px;font-size:.82rem;font-weight:800;color:var(--muted);margin:0 0 18px}.issue:before{content:"";width:11px;height:11px;background:#2f6599;transform:rotate(12deg)}.mast h1{font-family:"Noto Sans KR",sans-serif;font-size:clamp(2.6rem,10.5vw,6.5rem);font-weight:800;line-height:1.04;letter-spacing:-.075em;margin:0;max-width:900px;white-space:nowrap}.mast h1 .report-word{display:inline-block;padding:.02em .18em .1em .1em;background:var(--ink);color:var(--paper);letter-spacing:-.065em;transform:rotate(-1deg);transform-origin:left center}.dek{font-family:"Gowun Dodum",sans-serif;font-size:clamp(1.05rem,2vw,1.32rem);line-height:1.65;margin:32px 0 0;max-width:710px;color:var(--muted)}.snapshot{border-top:5px solid var(--ink);padding-top:17px}.snapshot b{font-size:3.1rem;line-height:1;display:block;letter-spacing:-.06em}.snapshot span{font-size:.84rem;color:var(--muted)}
     .theme-toggle{position:absolute;top:16px;right:18px;display:flex;background:var(--surface);border:1px solid var(--line);border-radius:999px;overflow:hidden;z-index:6}
     .theme-toggle button{appearance:none;border:0;background:transparent;color:var(--muted);font:700 .76rem "Noto Sans KR",sans-serif;padding:8px 13px;cursor:pointer}
@@ -61,7 +67,12 @@
     .card-body{padding:28px 29px 26px;display:flex;flex-direction:column;height:100%}
     .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.72rem;color:var(--muted);font-weight:600}.tag{color:var(--cat);background:var(--soft);padding:4px 8px;border-radius:4px}
     .card h4{font-size:1.35rem;line-height:1.4;letter-spacing:-.025em;margin:16px 0 6px}
-    .part{margin:20px 0 0}.part h5{margin:0 0 8px;font:800 .82rem "Noto Sans KR";color:var(--cat);letter-spacing:.05em}
+    .part{margin:20px 0 0}
+    .summary{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:9px}
+    .summary li{position:relative;padding-left:17px;font-family:"Gowun Dodum",sans-serif;font-size:.99rem;line-height:1.58}
+    .summary li:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--cat);position:absolute;left:0;top:.69em}
+    .why{margin:21px 0 0;padding:15px 16px;background:var(--soft);font-size:.88rem;line-height:1.7}
+    .why strong{font-weight:800;margin-right:6px}.part h5{margin:0 0 8px;font:800 .82rem "Noto Sans KR";color:var(--cat);letter-spacing:.05em}
     .part p{margin:0 0 8px;font-size:.98rem;line-height:1.7}.part p:last-child{margin-bottom:0}
     .quote-orig{font-family:"Gowun Batang",serif;font-size:1.12rem;line-height:1.95}
     .quote-trans{font-family:"Gowun Dodum",sans-serif}
@@ -138,6 +149,6 @@
   </div>
   <footer><div class="wrap footer-grid"><strong>사람 사는 이야기<br>매일 한 편씩 찾아옵니다</strong><span id="foot-note">사람 사는 이야기로 시작해서 인문학으로 한 발짝 들어가는 곳.</span></div></footer>
 <script src="sql-wasm.js"></script>
-<script src="app.js?v=20261017e"></script>
+<script src="app.js?v=20261018a"></script>
 </body>
 </html>
