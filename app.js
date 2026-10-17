@@ -76,22 +76,20 @@ function partHtml(num,label,inner){
 function discoveryCard(it,edDate){
   n++;
   const uid=cardUid(it.title+'|'+it.edition_id);
-  const ulink=it.url?' · <a href="'+esc(it.url)+'" target="_blank" rel="noopener noreferrer">원문 확인</a>':'';
   const copyIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="11" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
   const shareIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="18" cy="19" r="2.5" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m8.3 10.9 7.4-4.5M8.3 13.1l7.4 4.5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>';
   const linkIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M14 10a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>';
-  const imgIcon='<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9" r="1.5" fill="currentColor"/><path d="m5 17 4.2-4.2 3.1 3.1 2.2-2.2L19 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
   return '<article id="'+uid+'" class="card c-'+it.key+'" data-cat="'+it.key+'" data-edition="'+esc(it.edition_id)+'" data-url="'+esc(it.url||'')+'">'
     +'<div class="card-body">'
     +'<div class="meta"><span class="tag">'+esc(CATLBL[it.key]||it.cat)+'</span><time>'+esc(badgeDate(edDate))+'</time></div>'
     +'<h4>'+esc(it.title)+'</h4>'
-    +'<section class="part"><p>'+nl(it.q1||'')+'</p><p>'+nl(it.q2||'')+'</p><p>'+nl(it.q3||'')+'</p><p class="src-line">출처'+ulink+'</p></section>'
+    +'<section class="part"><p>'+nl(it.q1||'')+'</p><p>'+nl(it.q2||'')+'</p><p>'+nl(it.q3||'')+'</p></section>'
     +'<section class="part question"><h5>생각해볼 포인트</h5><p>'+nl(it.point||'')+'</p></section>'
     +'<div class="source"><div class="card-actions">'
+    +'<a class="card-action" href="'+esc(it.url||'')+'" target="_blank" rel="noopener noreferrer">원문 보기</a>'
     +'<button class="card-action copy-card" type="button" aria-label="카드 텍스트 복사">'+copyIcon+'복사</button>'
     +'<button class="card-action share-card" type="button" aria-label="카드 공유">'+shareIcon+'공유</button>'
     +'<button class="card-action link-card" type="button" aria-label="카드 링크 복사">'+linkIcon+'링크</button>'
-    +'<button class="card-action img-card" type="button" aria-label="카드 이미지 저장">'+imgIcon+'이미지</button>'
     +'</div><span class="index">'+String(n).padStart(2,'0')+'</span></div>'
     +'</div></article>';
 }
@@ -190,7 +188,8 @@ function cardData(article){
     meta:Array.from(article.querySelectorAll('.meta .tag,.meta time')).map(function(el){return el.textContent.trim()}).join(' · ')
   };
   it.parts=Array.from(article.querySelectorAll('.part')).map(function(p){
-    return {head:p.querySelector('h5').textContent.trim(),
+    const h=p.querySelector('h5');
+    return {head:h?h.textContent.trim():'',
       body:Array.from(p.querySelectorAll('p')).map(function(x){return x.textContent.trim()}).join('\n')};
   });
   const f=article.querySelector('.flags');
@@ -200,8 +199,10 @@ function cardData(article){
 function cardText(article){
   const d=cardData(article);
   const lines=[d.title,'['+d.meta+']',''];
-  d.parts.forEach(function(p){lines.push(p.head,'',p.body,'')});
+  d.parts.forEach(function(p){if(p.head)lines.push(p.head,'');lines.push(p.body,'')});
   if(d.flags)lines.push(d.flags,'');
+  const src=article.dataset.url;
+  if(src)lines.push('원문: '+src,'');
   lines.push('카드 링크: '+location.origin+location.pathname+'#'+article.id);
   return lines.join('\n');
 }
