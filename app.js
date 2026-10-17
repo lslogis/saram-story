@@ -19,10 +19,10 @@ document.querySelector('.theme-toggle').addEventListener('click',function(e){
 applyTheme();
 
 /* ---------- categories ---------- */
-const CATKEY={'일':'work','관계':'rel','혼자':'alone','나이 듦':'aging','돈':'money','마음':'mind','가족':'family'};
-const CATLBL={work:'일',rel:'관계',alone:'혼자',aging:'나이 듦',money:'돈',mind:'마음',family:'가족'};
-const CATORD=['work','rel','alone','aging','money','mind','family'];
-const CATDOTS={work:'#2f6599',rel:'#b7352d',alone:'#7551a3',aging:'#9a650d',money:'#26745b',mind:'#a34d7a',family:'#3f7d8c'};
+const CATKEY={'마음':'mind','몸':'body','관계':'rel','아이':'kid','노화':'aging'};
+const CATLBL={mind:'마음',body:'몸',rel:'관계',kid:'아이',aging:'노화'};
+const CATORD=['mind','body','rel','kid','aging'];
+const CATDOTS={mind:'#a34d7a',body:'#26745b',rel:'#b7352d',kid:'#3f7d8c',aging:'#9a650d'};
 
 /* ---------- db ---------- */
 function rows(sql){const r=SQLDB.exec(sql);return r.length?r[0].values:[]}
