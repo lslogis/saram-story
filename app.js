@@ -438,3 +438,22 @@ async function main(){
   handleDeepLink();
 }
 main();
+
+/* back-to-top button (added 2026-10-21) */
+(function(){
+  if (document.getElementById('to-top')) return;
+  var style = document.createElement('style');
+  style.textContent = '#to-top{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:45;width:48px;height:48px;border-radius:50%;border:2px solid var(--ink,#171713);background:var(--paper,#f3f1ed);color:var(--ink,#171713);font-size:21px;font-weight:800;line-height:1;cursor:pointer;box-shadow:3px 3px 0 rgba(23,23,19,.8);opacity:0;pointer-events:none;transform:translateY(8px);transition:opacity .18s ease,transform .18s ease}#to-top.show{opacity:1;pointer-events:auto;transform:none}#to-top:active{transform:translate(2px,2px);box-shadow:1px 1px 0 rgba(23,23,19,.8)}';
+  document.head.appendChild(style);
+  var btn = document.createElement('button');
+  btn.id = 'to-top';
+  btn.type = 'button';
+  btn.setAttribute('aria-label', '맨 위로 가기');
+  btn.textContent = '↑';
+  btn.addEventListener('click', function(){ window.scrollTo({ top: 0, behavior: 'smooth' }); });
+  document.body.appendChild(btn);
+  var ticking = false;
+  function update(){ ticking = false; btn.classList.toggle('show', window.scrollY > 600); }
+  window.addEventListener('scroll', function(){ if (!ticking){ ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  update();
+})();
