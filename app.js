@@ -57,8 +57,15 @@ function editionShort(ed){
   return d+(ed.label?' · '+ed.label:'');
 }
 
+function labelHtml(t){
+  const parts=t.split(' ');
+  if(parts.length<2) return esc(t);
+  const last=parts.pop();
+  return esc(parts.join(' '))+' <span class="label-hl">'+esc(last)+'</span>';
+}
+
 function editionBlockHtml(ed,count){
-  const label=ed.label?esc(ed.label):esc(badgeDate(ed.date)+'의 이야기');
+  const label=ed.label?labelHtml(ed.label):esc(badgeDate(ed.date)+'의 이야기');
   const small=ed.small?'<small>'+esc(ed.small)+'</small>':'';
   return '<section class="edition-block" id="block-'+esc(ed.id)+'" aria-label="'+esc(editionShort(ed))+'">'
     +'<div class="edition-head"><h2 class="edition-title">'
