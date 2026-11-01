@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://saram.protocolgaia.com/sitemap.xml
